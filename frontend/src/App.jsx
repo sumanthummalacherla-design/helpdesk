@@ -12,11 +12,10 @@ import { AuthProvider } from "./AuthContext";
 import Ticket_form from "./pages/ticket-form";
 import TicketDetail from "./pages/Ticketdetails";
 
-
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/helpdesk">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

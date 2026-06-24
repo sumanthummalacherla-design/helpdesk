@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Ticket = require('./models/Tickets');
-const Counter = require('./models/counter');
+const Counter = require('./models/Counter');
 const Customer = require('./models/Customer');
 const Settings = require('./models/Settings');
 
