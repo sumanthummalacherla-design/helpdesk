@@ -35,7 +35,6 @@ function StatusBadge({ status }) {
   );
 }
 
-// ── Add Customer Modal ────────────────────────────────────────────────────────
 function AddCustomerModal({ onClose, onAdd }) {
   const [form, setForm] = useState({ name: "", email: "", password: "", status: "Active" });
   const [errors, setErrors] = useState({});
@@ -144,7 +143,6 @@ export default function Customers() {
     }).catch(console.error).finally(() => setLoading(false));
   }, []);
 
-  // Count tickets per customer (match by requesterId or requesterName)
   function ticketCount(customer) {
     return tickets.filter(t =>
       t.requesterId === String(customer.id || customer._id) ||
@@ -181,10 +179,8 @@ export default function Customers() {
         <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 4px" }}>Customers</h1>
         <p style={{ color: "#64748b", margin: 0 }}>{filtered.length} customers</p>
       </div>
-      </div>
 
       <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
-        {/* Toolbar */}
         <div style={{ padding: "14px 16px", borderBottom: "1px solid #f3f4f6", display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ position: "relative", flex: 1, maxWidth: 360 }}>
             <Search size={14} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} />
@@ -197,7 +193,6 @@ export default function Customers() {
           </button>
         </div>
 
-        {/* Table */}
         {loading ? (
           <p style={{ padding: 24, color: "#6b7280" }}>Loading…</p>
         ) : filtered.length === 0 ? (
@@ -237,7 +232,6 @@ export default function Customers() {
           </table>
         )}
 
-        {/* Pagination */}
         {!loading && filtered.length > 0 && (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid #f3f4f6" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#6b7280" }}>
@@ -266,8 +260,7 @@ export default function Customers() {
   );
 }
 
-const labelStyle = { display: "block", marginBottom: 6, fontSize: 13, fontWeight: 500, color: "#374151" };
+const labelStyle = { display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 6, fontSize: 13, fontWeight: 500, color: "#374151" };
 const inputStyle = { width: "100%", height: 40, boxSizing: "border-box", border: "1px solid #d1d5db", borderRadius: 8, padding: "0 12px", fontSize: 14, outline: "none" };
 const thStyle = { padding: "10px 16px", textAlign: "left", fontSize: 11, fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" };
 const tdStyle = { padding: "12px 16px" };
-
