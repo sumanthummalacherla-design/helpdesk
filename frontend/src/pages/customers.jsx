@@ -177,7 +177,7 @@ export default function Customers() {
 
   return (
     <main style={{ padding: 24, background: "#f8fafc", minHeight: "100vh" }}>
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 ,display:"flex",flexDirection:"row"}}>
         <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 4px" }}>Customers</h1>
         <p style={{ color: "#64748b", margin: 0 }}>{filtered.length} customers</p>
       </div>
@@ -265,7 +265,7 @@ export default function Customers() {
   );
 }
 
-const labelStyle = { display: "block", marginBottom: 6, fontSize: 13, fontWeight: 500, color: "#374151" };
+const labelStyle = { display: "flex", flrxDirection:"row",marginBottom: 6, fontSize: 13, fontWeight: 500, color: "#374151" };
 const inputStyle = { width: "100%", height: 40, boxSizing: "border-box", border: "1px solid #d1d5db", borderRadius: 8, padding: "0 12px", fontSize: 14, outline: "none" };
 const thStyle = { padding: "10px 16px", textAlign: "left", fontSize: 11, fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" };
 const tdStyle = { padding: "12px 16px" };
