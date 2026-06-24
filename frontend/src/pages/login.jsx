@@ -93,12 +93,12 @@ function Login() {
               </div>
             )}
             <div className="form-group">
-              <label htmlFor="email">Email address</label>
+              <label htmlFor="email" style={{display:"flex", flexDirection: "row"}}>Email address</label>
               <input value={email} onChange={(e) => setEmail(e.target.value)}
                 type="email" className="form-control" id="email" placeholder="Enter email" required />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" style={{display:"flex", flexDirection: "row"}}>Password</label>
               <input value={password} onChange={(e) => setPassword(e.target.value)}
                 type="password" className="form-control" id="password" placeholder="Enter password" required />
             </div>
@@ -121,7 +121,7 @@ function Login() {
 }
 
 const toggleStyle = (isActive) => ({
-  display: "flex", justifyContent: "center", padding: "8px 28px", borderRadius: 10,
+  display: "flex", justifyContent: "start", padding: "8px 28px", borderRadius: 10,
   border: "none", cursor: "pointer", alignItems: "center", width: 225, fontSize: 14,
   fontWeight: isActive ? "600" : "400",
   backgroundColor: isActive ? "#ffffff" : "transparent",
