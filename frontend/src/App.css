@@ -1390,8 +1390,8 @@ table{
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 465px;
-  width: 300px;
+  height: auto;
+  width: 100%;
   gap: 14px;
 }
 
