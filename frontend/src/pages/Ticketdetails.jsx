@@ -106,15 +106,15 @@ export default function TicketDetail() {
   const initials = (name) =>
     (name || "?").split(/\s+/).filter(Boolean).map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
+  const isImage = (url) => url && /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url);
+
   return (
-    <div className="ticket-detail-page">
-      <div className="ticket-detail">
-        {/* Back */}
+    <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%" }}>
+      <div style={{ padding: 24, maxWidth: "100%", boxSizing: "border-box" }}>
         <button onClick={() => navigate("/tickets")} className="back-btn">
           ← Back to Tickets
         </button>
 
-        {/* Title + badges */}
         <div className="ticket-detail-header">
           <h2 style={{ marginBottom: 0 }}>{ticket.id} — {ticket.subject}</h2>
         </div>
@@ -131,7 +131,7 @@ export default function TicketDetail() {
         </div>
 
         {/* 3-column grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 200px 300px", gap: 16, alignItems: "start", marginTop: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 220px 280px", gap: 16, alignItems: "start", marginTop: 16 }}>
 
           {/* COL 1 — Description + Reply box */}
           <div className="ticket-detail-lay">
@@ -141,7 +141,11 @@ export default function TicketDetail() {
               {ticket.attachmentUrl && (
                 <div className="ticket-detail-attachment">
                   <h4>Attachment</h4>
-                  <a href={ticket.attachmentUrl} target="_blank" rel="noreferrer">View Attachment</a>
+                  {isImage(ticket.attachmentUrl) ? (
+                    <img src={ticket.attachmentUrl} alt="attachment" style={{ maxWidth: "100%", borderRadius: 8, marginTop: 8 }} />
+                  ) : (
+                    <a href={ticket.attachmentUrl} target="_blank" rel="noreferrer">View Attachment</a>
+                  )}
                 </div>
               )}
             </div>
@@ -212,7 +216,7 @@ export default function TicketDetail() {
             </div>
             <div className="detail-field">
               <span className="detail-label">Priority</span>
-              <span className="detail-value" style={{ backgroundColor: PRIORITY_COLORS[ticket.priority], color: PRIORITY_COLORS1[ticket.priority], width: 60, textAlign: "center", padding: "2px 6px", borderRadius: 5 }}>
+              <span className="detail-value" style={{ backgroundColor: PRIORITY_COLORS[ticket.priority], color: PRIORITY_COLORS1[ticket.priority], display: "inline-block", padding: "2px 10px", borderRadius: 5 }}>
                 {ticket.priority}
               </span>
             </div>
@@ -254,18 +258,14 @@ export default function TicketDetail() {
           </div>
 
           {/* COL 3 — Conversation history */}
-          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden",marginLeft:100,width:"300px",height:"auto"}}>
-            {/* Header */}
+          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
             <div style={{ padding: "14px 16px", borderBottom: "1px solid #e5e7eb", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#111827" }}>
-                Conversation
-              </h4>
+              <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#111827" }}>Conversation</h4>
               <span style={{ fontSize: 12, color: "#6b7280", background: "#f3f4f6", borderRadius: 20, padding: "2px 8px" }}>
                 {messages.length} {messages.length === 1 ? "message" : "messages"}
               </span>
             </div>
 
-            {/* Messages */}
             <div style={{ maxHeight: 480, overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
               {messages.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "32px 0", color: "#9ca3af", fontSize: 13 }}>
@@ -276,8 +276,7 @@ export default function TicketDetail() {
                   <div key={i} style={{
                     background: msg.type === "note" ? "#fffbeb" : "#f8fafc",
                     border: `1px solid ${msg.type === "note" ? "#fde68a" : "#e5e7eb"}`,
-                    borderRadius: 10,
-                    padding: "10px 12px",
+                    borderRadius: 10, padding: "10px 12px",
                   }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                       <div style={{
@@ -312,4 +311,3 @@ export default function TicketDetail() {
     </div>
   );
 }
-
