@@ -53,7 +53,6 @@ function Register() {
           <div style={toggleStyle(true)}>Sign Up</div>
         </div>
 
-        {/* Role toggle */}
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
           <div style={rolePillWrap}>
             <div style={rolePill(role === "assignee")} onClick={() => { setRole("assignee"); setError(""); }}>Assignee</div>
@@ -69,22 +68,22 @@ function Register() {
               </div>
             )}
             <div className="form-group">
-              <label htmlFor="display-name">Full Name</label>
+              <label htmlFor="display-name" style={{ display: "flex", flexDirection: "row" }}>Full Name</label>
               <input value={displayName} onChange={(e) => setDisplayName(e.target.value)}
                 type="text" className="form-control" id="display-name" placeholder="Enter your full name" required />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email address</label>
+              <label htmlFor="email" style={{ display: "flex", flexDirection: "row" }}>Email address</label>
               <input value={email} onChange={(e) => setEmail(e.target.value)}
                 type="email" className="form-control" id="email" placeholder="Enter email" required />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" style={{ display: "flex", flexDirection: "row" }}>Password</label>
               <input value={password} onChange={(e) => setPassword(e.target.value)}
                 type="password" className="form-control" id="password" placeholder="At least 6 characters" required />
             </div>
             <div className="form-group">
-              <label htmlFor="confirm">Confirm Password</label>
+              <label htmlFor="confirm" style={{ display: "flex", flexDirection: "row" }}>Confirm Password</label>
               <input value={confirm} onChange={(e) => setConfirm(e.target.value)}
                 type="password" className="form-control" id="confirm" placeholder="Repeat your password" required />
             </div>
@@ -117,4 +116,3 @@ const rolePill = (isActive) => ({
 });
 
 export default Register;
-
