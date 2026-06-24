@@ -40,7 +40,7 @@ export default function TicketDetail() {
         const res = await fetch(`${API_BASE}/api/tickets/${id}/messages`);
         const data = await res.json();
         setMessages(data.messages || []);
-      } catch { /* ignore */ }
+      } catch { }
     };
     fetchMessages();
   }, [id]);
@@ -111,13 +111,15 @@ export default function TicketDetail() {
   return (
     <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%" }}>
       <div style={{ padding: 24, maxWidth: "100%", boxSizing: "border-box" }}>
-        <button onClick={() => navigate("/tickets")} className="back-btn">
+
+        <button onClick={() => navigate("/tickets")} className="back-btn" style={{ alignSelf: "flex-start" }}>
           ← Back to Tickets
         </button>
 
         <div className="ticket-detail-header">
           <h2 style={{ marginBottom: 0 }}>{ticket.id} — {ticket.subject}</h2>
         </div>
+
         <div className="ticket-details-yal">
           <span style={{ backgroundColor: STATUS_COLORS[ticket.status], color: STATUS_COLORS1[ticket.status], padding: "5px 10px", borderRadius: 7 }}>
             {ticket.status}
@@ -131,7 +133,7 @@ export default function TicketDetail() {
         </div>
 
         {/* 3-column grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 220px 280px", gap: 16, alignItems: "start", marginTop: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 200px 260px", gap: 16, alignItems: "start", marginTop: 16, width: "100%", boxSizing: "border-box" }}>
 
           {/* COL 1 — Description + Reply box */}
           <div className="ticket-detail-lay">
@@ -204,7 +206,7 @@ export default function TicketDetail() {
           </div>
 
           {/* COL 2 — Ticket details + actions */}
-          <div className="ticket-detail-sidebar">
+          <div className="ticket-detail-sidebar" style={{ height: "auto" }}>
             <h4 style={{ marginBottom: 0 }}>Ticket Details</h4>
             <div className="detail-field">
               <span className="detail-label">Requester</span>
@@ -216,7 +218,7 @@ export default function TicketDetail() {
             </div>
             <div className="detail-field">
               <span className="detail-label">Priority</span>
-              <span className="detail-value" style={{ backgroundColor: PRIORITY_COLORS[ticket.priority], color: PRIORITY_COLORS1[ticket.priority], display: "inline-block", padding: "2px 10px", borderRadius: 5 }}>
+              <span style={{ backgroundColor: PRIORITY_COLORS[ticket.priority], color: PRIORITY_COLORS1[ticket.priority], display: "inline-block", padding: "2px 10px", borderRadius: 5, width: "fit-content", alignSelf: "flex-start" }}>
                 {ticket.priority}
               </span>
             </div>
@@ -258,7 +260,7 @@ export default function TicketDetail() {
           </div>
 
           {/* COL 3 — Conversation history */}
-          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
+          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", minWidth: 0 }}>
             <div style={{ padding: "14px 16px", borderBottom: "1px solid #e5e7eb", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#111827" }}>Conversation</h4>
               <span style={{ fontSize: 12, color: "#6b7280", background: "#f3f4f6", borderRadius: 20, padding: "2px 8px" }}>
