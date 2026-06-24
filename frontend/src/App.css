@@ -1015,7 +1015,7 @@ table{
 
 .form-label {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: start;
   width: 100%;
   height: auto;
