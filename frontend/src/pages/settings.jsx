@@ -36,7 +36,7 @@ const Settings = () => {
   const fetchSettings = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/settings"
+        "https://helpdesk-roii.onrender.com/api/settings"
       );
 
       const data = await response.json();
@@ -94,7 +94,7 @@ const Settings = () => {
   const saveSettings = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/settings",
+        "https://helpdesk-roii.onrender.com/api/settings",
         {
           method: "PUT",
           headers: {
