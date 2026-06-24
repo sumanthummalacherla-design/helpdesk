@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
@@ -5,7 +6,7 @@ import { useAuth } from "../AuthContext";
 // Load requester (customer) list from backend
 async function loadAssignees() {
   try {
-    const res = await fetch("/api/users");
+    const res = await fetch(API_BASE + "/api/users");
     if (!res.ok) throw new Error("Failed to fetch users");
     const data = await res.json();
     const users = (data.users || [])
@@ -65,7 +66,7 @@ export default function Tickets_form() {
 
     const id = Date.now();
 
-    const res = await fetch("/api/tickets", {
+    const res = await fetch(API_BASE + "/api/tickets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -276,3 +277,4 @@ export default function Tickets_form() {
     </form>
   );
 }
+

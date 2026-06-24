@@ -1,3 +1,4 @@
+import API_BASE from '../../config';
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { sidebarMenuItems } from "../../utils/json/data.js";
@@ -43,7 +44,7 @@ const Sidebar = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tickets")
+    fetch(API_BASE + "/api/tickets")
       .then((r) => r.json())
       .then((d) => setTickets(d.tickets || []))
       .catch(() => {})
@@ -172,3 +173,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+

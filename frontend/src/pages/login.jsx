@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
@@ -16,7 +17,7 @@ function Login() {
 
     if (role === "assignee") {
       try {
-        const res = await fetch("/api/login", {
+        const res = await fetch(API_BASE + "/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -33,7 +34,7 @@ function Login() {
       }
     } else {
       try {
-        const res = await fetch("/api/customers/login", {
+        const res = await fetch(API_BASE + "/api/customers/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -138,3 +139,4 @@ const rolePill = (isActive) => ({
 });
 
 export default Login;
+

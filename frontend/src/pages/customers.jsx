@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Plus, X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -57,7 +58,7 @@ function AddCustomerModal({ onClose, onAdd }) {
 
     setSaving(true);
     try {
-      const res = await fetch("/api/customers", {
+      const res = await fetch(API_BASE + "/api/customers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: form.name.trim(), email: form.email.trim(), password: form.password, status: form.status }),
@@ -135,8 +136,8 @@ export default function Customers() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/customers").then(r => r.json()),
-      fetch("/api/tickets").then(r => r.json()),
+      fetch(API_BASE + "/api/customers").then(r => r.json()),
+      fetch(API_BASE + "/api/tickets").then(r => r.json()),
     ]).then(([cData, tData]) => {
       setCustomers(cData.customers || []);
       setTickets(tData.tickets || []);
@@ -268,3 +269,4 @@ const labelStyle = { display: "block", marginBottom: 6, fontSize: 13, fontWeight
 const inputStyle = { width: "100%", height: 40, boxSizing: "border-box", border: "1px solid #d1d5db", borderRadius: 8, padding: "0 12px", fontSize: 14, outline: "none" };
 const thStyle = { padding: "10px 16px", textAlign: "left", fontSize: 11, fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" };
 const tdStyle = { padding: "12px 16px" };
+

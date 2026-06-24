@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
@@ -20,7 +21,7 @@ export default function TicketDetail() {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
-        const response = await fetch(`/api/tickets/${id}`);
+        const response = await fetch(`${API_BASE}/api/tickets/${id}`);
         if (!response.ok) throw new Error("Ticket not found");
         const data = await response.json();
         setTicket(data.ticket);
@@ -36,7 +37,7 @@ export default function TicketDetail() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch(`/api/tickets/${id}/messages`);
+        const res = await fetch(`${API_BASE}/api/tickets/${id}/messages`);
         const data = await res.json();
         setMessages(data.messages || []);
       } catch { /* ignore */ }
@@ -52,7 +53,7 @@ export default function TicketDetail() {
     if (!reply.trim()) return;
     setSending(true);
     try {
-      const res = await fetch(`/api/tickets/${id}/messages`, {
+      const res = await fetch(`${API_BASE}/api/tickets/${id}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -77,7 +78,7 @@ export default function TicketDetail() {
   async function updateStatus(newStatus) {
     setUpdating(true);
     try {
-      const res = await fetch(`/api/tickets/${id}`, {
+      const res = await fetch(`${API_BASE}/api/tickets/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -311,3 +312,4 @@ export default function TicketDetail() {
     </div>
   );
 }
+

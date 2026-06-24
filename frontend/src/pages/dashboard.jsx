@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
@@ -121,8 +122,8 @@ export default function Dashboard() {
   useEffect(() => {
     if (!user) return;
     Promise.all([
-      fetch("/api/tickets").then(r => r.json()),
-      fetch("/api/customers").then(r => r.json()),
+      fetch(API_BASE + "/api/tickets").then(r => r.json()),
+      fetch(API_BASE + "/api/customers").then(r => r.json()),
     ]).then(([tData, cData]) => {
       setTickets(tData.tickets || []);
       setCustomers(cData.customers || []);
@@ -314,3 +315,4 @@ export default function Dashboard() {
     </main>
   );
 }
+

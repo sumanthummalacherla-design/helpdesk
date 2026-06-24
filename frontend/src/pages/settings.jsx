@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import React, { useEffect, useState } from "react";
 
 const Settings = () => {
@@ -523,3 +524,4 @@ const inputStyle = {
 };
 
 export default Settings;
+

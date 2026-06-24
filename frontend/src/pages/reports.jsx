@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
 import {
@@ -55,7 +56,7 @@ export default function Reports() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const res = await fetch("/api/tickets");
+        const res = await fetch(API_BASE + "/api/tickets");
         const data = await res.json();
         setTickets(data.tickets);
       } catch (err) {
@@ -603,3 +604,4 @@ export default function Reports() {
     </main>
   );
 }
+

@@ -1,3 +1,4 @@
+import API_BASE from '../config';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
@@ -25,7 +26,7 @@ export default function Tickets() {
     if (!user) return;
     const fetchTickets = async () => {
       try {
-        const response = await fetch(`/api/tickets`);
+        const response = await fetch(`${API_BASE}/api/tickets`);
         const data = await response.json();
         setTickets(data.tickets || []);
       } catch (error) {
@@ -49,7 +50,7 @@ export default function Tickets() {
 
   async function updateTicket(id, updates) {
     try {
-      await fetch(`/api/tickets/${id}`, {
+      await fetch(`${API_BASE}/api/tickets/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
@@ -394,3 +395,4 @@ export default function Tickets() {
     </div>
   );
 }
+

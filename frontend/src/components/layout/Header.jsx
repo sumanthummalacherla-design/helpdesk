@@ -1,3 +1,4 @@
+import API_BASE from '../../config';
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
@@ -99,7 +100,7 @@ const Header = () => {
     const timer = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/tickets");
+        const res = await fetch(API_BASE + "/api/tickets");
         if (!res.ok) throw new Error("fetch failed");
         const data = await res.json();
         const tickets = data.tickets || [];
@@ -485,3 +486,4 @@ function Kbd({ children }) {
 }
 
 export default Header;
+
