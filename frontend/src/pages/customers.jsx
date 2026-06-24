@@ -178,8 +178,10 @@ export default function Customers() {
   return (
     <main style={{ padding: 24, background: "#f8fafc", minHeight: "100vh" }}>
       <div style={{ marginBottom: 20 ,display:"flex",flexDirection:"row"}}>
+        <div style={{display:"flex",flexDirection:"column"}}
         <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 4px" }}>Customers</h1>
         <p style={{ color: "#64748b", margin: 0 }}>{filtered.length} customers</p>
+      </div>
       </div>
 
       <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
