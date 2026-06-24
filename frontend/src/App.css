@@ -1014,8 +1014,8 @@ table{
 }
 
 .form-label {
-  display: flex;
-  flex-direction: row;
+  display: flex !important;
+  flex-direction: row !important;
   justify-content: start;
   width: 100%;
   height: auto;
