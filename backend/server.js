@@ -10,21 +10,30 @@ const Customer = require('./models/Customer');
 const Settings = require('./models/Settings');
 
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Multer — store uploaded files in /uploads, keep original extension
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+// Cloudinary config — set these in your Render environment variables
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'helpdesk-tickets',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'pdf', 'gif', 'webp'],
+  },
 });
 const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // serve uploaded files
 
 app.get('/', (req, res) => res.json({ message: 'Backend running' }));
 
@@ -148,9 +157,7 @@ async function getNextSequenceValue(sequenceName) {
 app.post('/api/tickets', upload.single('attachment'), async (req, res) => {
   try {
     const { subject, category, priority, assignee, description, user, requesterName, requesterId, requesterRole } = req.body;
-    const attachmentUrl = req.file
-      ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
-      : null;
+    const attachmentUrl = req.file ? req.file.path : null;
     if (!subject || !description || !category || !priority) return res.status(400).json({ message: 'Subject, description, category, and priority are required' });
     if (!user && !requesterId) return res.status(401).json({ message: 'User is required' });
 
