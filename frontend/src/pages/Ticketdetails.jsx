@@ -108,7 +108,7 @@ export default function TicketDetail() {
   const initials = (name) =>
     (name || "?").split(/\s+/).filter(Boolean).map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
-  const isImage = (url) => url && /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url);
+  const isImage = (url) => url && (/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url) || /\/image\/upload\//i.test(url));
 
   return (
     <div className="ticket-detail-page" style={{ overflow:"hidden",height: "100%", backgroundColor: "#e5e7eb" }}>
@@ -145,12 +145,30 @@ export default function TicketDetail() {
               <h4 style={{ textAlign: "left" }}>Description</h4>
               <p style={{ textAlign: "left" }}>{ticket.description}</p>
               {ticket.attachmentUrl && (
-                <div className="ticket-detail-attachment" style={{ textAlign: "left" }}>
-                  <h4 style={{ textAlign: "left" }}>Attachment</h4>
-                  {isImage(ticket.attachmentUrl) ? (
-                    <img src={ticket.attachmentUrl} alt="attachment" style={{ maxWidth: "100%", borderRadius: 8, marginTop: 8 }} />
-                  ) : (
-                    <a href={ticket.attachmentUrl} target="_blank" rel="noreferrer">View Attachment</a>
+                <div className="ticket-detail-attachment" style={{ textAlign: "left", marginTop: 12 }}>
+                  <h4 style={{ textAlign: "left", marginBottom: 8 }}>Attachment</h4>
+                  <a
+                    href={ticket.attachmentUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-flex", alignItems: "center", gap: 6,
+                      padding: "7px 14px", borderRadius: 8,
+                      border: "1px solid #e5e7eb", background: "#f9fafb",
+                      color: "#374151", fontSize: 13, fontWeight: 500,
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Paperclip size={14} />
+                    View Attachment
+                  </a>
+                  {isImage(ticket.attachmentUrl) && (
+                    <img
+                      src={ticket.attachmentUrl}
+                      alt="attachment"
+                      style={{ display: "block", maxWidth: "100%", borderRadius: 8, marginTop: 10, cursor: "pointer" }}
+                      onClick={() => window.open(ticket.attachmentUrl, "_blank")}
+                    />
                   )}
                 </div>
               )}
