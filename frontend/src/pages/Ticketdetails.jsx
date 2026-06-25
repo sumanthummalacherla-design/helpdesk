@@ -109,7 +109,7 @@ export default function TicketDetail() {
   const isImage = (url) => url && /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url);
 
   return (
-    <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%", backgroundColor: "#e5e7eb" }}>
+    <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%", backgroundColor: "#fff" }}>
       <div style={{ padding: 24, maxWidth: "100%", boxSizing: "border-box" }}>
       <div style={{ marginBottom: 20, display: "flex", justifyContent: "row" }}>
         <button onClick={() => navigate("/tickets")} className="back-btn" style={{ alignSelf: "flex-start" }}>
