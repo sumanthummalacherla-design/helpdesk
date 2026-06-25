@@ -103,19 +103,20 @@ export default function TicketDetail() {
   const PRIORITY_COLORS = { Critical: "#FFCCCC", High: "#FFCB8C", Medium: "#FFE5C6", Low: "#CCFFE0" };
   const PRIORITY_COLORS1 = { Critical: "#ef4444", High: "#FF8C00", Medium: "#fb923c", Low: "#34d399" };
 
+  const BOX_SHADOW = "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.2)";
+
   const initials = (name) =>
     (name || "?").split(/\s+/).filter(Boolean).map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
   const isImage = (url) => url && /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url);
 
   return (
-    <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%", backgroundColor: "#fff" }}>
+    <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%", backgroundColor: "#e5e7eb" }}>
       <div style={{ padding: 24, maxWidth: "100%", boxSizing: "border-box" }}>
-      <div style={{ marginBottom: 20, display: "flex", justifyContent: "row" }}>
+
         <button onClick={() => navigate("/tickets")} className="back-btn" style={{ alignSelf: "flex-start" }}>
           ← Back to Tickets
         </button>
-        </div>
 
         <div className="ticket-detail-header">
           <h2 style={{ marginBottom: 0 }}>{ticket.id} — {ticket.subject}</h2>
@@ -138,7 +139,7 @@ export default function TicketDetail() {
 
           {/* COL 1 — Description + Reply box */}
           <div className="ticket-detail-lay">
-            <div className="ticket-detail-main">
+            <div className="ticket-detail-main" style={{ boxShadow: BOX_SHADOW }}>
               <h4>Description</h4>
               <p>{ticket.description}</p>
               {ticket.attachmentUrl && (
@@ -154,7 +155,7 @@ export default function TicketDetail() {
             </div>
 
             {/* Reply box */}
-            <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", marginTop: 16 }}>
+            <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", marginTop: 16, boxShadow: BOX_SHADOW }}>
               <div style={{ display: "flex", borderBottom: "1px solid #e5e7eb" }}>
                 {["reply", "note"].map((tab) => (
                   <button
@@ -207,7 +208,7 @@ export default function TicketDetail() {
           </div>
 
           {/* COL 2 — Ticket details + actions */}
-          <div className="ticket-detail-sidebar" style={{ height: "auto" }}>
+          <div className="ticket-detail-sidebar" style={{ height: "auto", boxShadow: BOX_SHADOW }}>
             <h4 style={{ marginBottom: 0 }}>Ticket Details</h4>
             <div className="detail-field">
               <span className="detail-label">Requester</span>
@@ -261,7 +262,7 @@ export default function TicketDetail() {
           </div>
 
           {/* COL 3 — Conversation history */}
-          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", minWidth: 0 }}>
+          <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", minWidth: 0, boxShadow: BOX_SHADOW }}>
             <div style={{ padding: "14px 16px", borderBottom: "1px solid #e5e7eb", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#111827" }}>Conversation</h4>
               <span style={{ fontSize: 12, color: "#6b7280", background: "#f3f4f6", borderRadius: 20, padding: "2px 8px" }}>
