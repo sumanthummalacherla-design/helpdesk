@@ -210,7 +210,7 @@ export default function TicketDetail() {
           </div>
 
           {/* COL 2 — Ticket details + actions */}
-          <div className="ticket-detail-sidebar" style={{ height: "auto", boxShadow: BOX_SHADOW, alignItems: "flex-start", textAlign: "left" }}>
+          <div className="ticket-detail-sidebar" style={{ height: "497px", boxShadow: BOX_SHADOW, alignItems: "flex-start", textAlign: "left" }}>
             <h4 style={{ marginBottom: 0, textAlign: "left" }}>Ticket Details</h4>
             <div className="detail-field">
               <span className="detail-label">Requester</span>
