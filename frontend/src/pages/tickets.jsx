@@ -1,5 +1,6 @@
 import API_BASE from '../config';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import {
@@ -20,6 +21,7 @@ export default function Tickets() {
   const [filterAssignee, setFilterAssignee] = useState("all");
   const [page, setPage] = useState(1);
   const [openmenu, setOpenMenu] = useState(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -104,8 +106,14 @@ export default function Tickets() {
     setTickets(sorted);
   }
 
-  function toggleMenu(ticketId) {
-    setOpenMenu((prev) => (prev === ticketId ? null : ticketId));
+  function toggleMenu(ticketId, btnEl) {
+    if (openmenu === ticketId) {
+      setOpenMenu(null);
+    } else {
+      const rect = btnEl.getBoundingClientRect();
+      setMenuPos({ top: rect.bottom + window.scrollY + 4, left: rect.right + window.scrollX });
+      setOpenMenu(ticketId);
+    }
   }
 
   const CATEGORY_COLORS  = { Billing: "#CCD0FF", Bug: "#FFCCCC", "Tech Issue": "#F0D2FF", Request: "#FFE8CC", Question: "#E9E9E9" };
@@ -359,22 +367,12 @@ export default function Tickets() {
                       </td>
 
                       <td>
-                        <div style={{ position: "relative" }}>
-                          <div className="menu-icon" onClick={() => toggleMenu(ticket.id)} style={{ cursor: "pointer", display: "inline-flex", padding: "4px" }}>
-                            <EllipsisVertical size={15} color="#838383" />
-                          </div>
-                          {openmenu === ticket.id && (
-                            <div className="menu" style={{ position: "absolute", right: 0, top: "100%", marginTop: "4px", background: "#fff", border: "1px solid #e5e7eb", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.12)", minWidth: "170px", zIndex: 20, overflow: "hidden" }}>
-                              {(MENU_OPTIONS_BYSTATUS[ticket.status] || []).map((option) => (
-                                <div key={option.label} onClick={() => option.onClick(ticket)}
-                                  style={{ padding: "8px 14px", fontSize: "13px", cursor: "pointer", whiteSpace: "nowrap", color: "#374151" }}
-                                  onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
-                                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
-                                  {option.label}
-                                </div>
-                              ))}
-                            </div>
-                          )}
+                        <div
+                          className="menu-icon"
+                          onClick={(e) => toggleMenu(ticket.id, e.currentTarget)}
+                          style={{ cursor: "pointer", display: "inline-flex", padding: "4px" }}
+                        >
+                          <EllipsisVertical size={15} color="#838383" />
                         </div>
                       </td>
                     </tr>
@@ -392,7 +390,39 @@ export default function Tickets() {
         <span>Page {page} of {totalPages}</span>
         <button onClick={() => setPage((p) => Math.min(p + 1, totalPages))} disabled={page === totalPages} id="pagination-btn">&#10095;</button>
       </footer>
+
+      {/* Portal dropdown — renders outside the table so it's never clipped */}
+      {openmenu !== null && createPortal(
+        <div
+          className="menu"
+          style={{
+            position: "absolute",
+            top: menuPos.top,
+            left: menuPos.left,
+            transform: "translateX(-100%)",
+            background: "#fff",
+            border: "1px solid #e5e7eb",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            minWidth: "170px",
+            zIndex: 9999,
+            overflow: "hidden",
+          }}
+        >
+          {(MENU_OPTIONS_BYSTATUS[pagedTickets.find(t => t.id === openmenu)?.status] || []).map((option) => (
+            <div
+              key={option.label}
+              onClick={() => option.onClick(pagedTickets.find(t => t.id === openmenu))}
+              style={{ padding: "8px 14px", fontSize: "13px", cursor: "pointer", whiteSpace: "nowrap", color: "#374151" }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
-
