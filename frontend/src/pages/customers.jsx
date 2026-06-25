@@ -182,7 +182,7 @@ export default function Customers() {
         </div>
       </div>
 
-      <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
+      <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", display: "flex", flexDirection: "column", maxHeight: "calc(100vh - 160px)" }}>
         <div style={{ padding: "14px 16px", borderBottom: "1px solid #f3f4f6", display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ position: "relative", flex: 1, maxWidth: 360 }}>
             <Search size={14} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} />
@@ -195,6 +195,7 @@ export default function Customers() {
           </button>
         </div>
 
+        <div style={{ overflowY: "auto", flex: 1 }}>
         {loading ? (
           <p style={{ padding: 24, color: "#6b7280" }}>Loading…</p>
         ) : filtered.length === 0 ? (
@@ -233,9 +234,10 @@ export default function Customers() {
             </tbody>
           </table>
         )}
+        </div>
 
         {!loading && filtered.length > 0 && (
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid #f3f4f6" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid #f3f4f6", background: "#fff", flexShrink: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#6b7280" }}>
               Show
               <select value={pageSize} onChange={e => { setPageSize(Number(e.target.value)); setPage(1); }}
