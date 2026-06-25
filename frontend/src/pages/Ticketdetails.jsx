@@ -188,10 +188,8 @@ export default function TicketDetail() {
                     fontFamily: "inherit", boxSizing: "border-box", background: "#fff",
                   }}
                 />
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
-                  <button style={{ background: "none", border: "none", cursor: "pointer", fontSize: 13, color: "#6b7280", display: "flex", alignItems: "center", gap: 6, padding: 0 }}>
-                    <Paperclip size={15} color="#6b7280" /> Attach
-                  </button>
+                <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginTop: 10 }}>
+
                   <button
                     onClick={sendReply}
                     disabled={sending || !reply.trim()}
