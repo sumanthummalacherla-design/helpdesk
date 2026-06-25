@@ -272,7 +272,7 @@ export default function TicketDetail() {
               </span>
             </div>
 
-            <div style={{ height: "100%", overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ height: "447px", overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
               {messages.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "32px 0", color: "#9ca3af", fontSize: 13 }}>
                   No messages yet.<br />Send a reply to start the conversation.
