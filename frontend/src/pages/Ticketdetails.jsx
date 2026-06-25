@@ -114,7 +114,7 @@ export default function TicketDetail() {
     <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%", backgroundColor: "#e5e7eb" }}>
       <div style={{ padding: 24, maxWidth: "100%", boxSizing: "border-box" }}>
 
-<div style={{display:"flex",flexDirection:"row"}}>
+<div style={{display:"flex",flexDirection:"row",marginBottom:0}}>
         <button onClick={() => navigate("/tickets")} className="back-btn" style={{ alignSelf: "flex-start" }}>
           ← Back to Tickets
         </button>
