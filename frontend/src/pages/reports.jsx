@@ -135,9 +135,7 @@ export default function Reports() {
           <button style={{ fontSize: 13, border: "1px solid #e5e7eb", borderRadius: 8, padding: "8px 14px", background: "#fff", cursor: "pointer" }}>
             Last 30 Days ▾
           </button>
-          <button style={{ fontSize: 13, border: "1px solid #e5e7eb", borderRadius: 8, padding: "8px 14px", background: "#fff", cursor: "pointer" }}>
-            ↓ Export
-          </button>
+
         </div>
       </div>
 
