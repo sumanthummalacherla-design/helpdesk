@@ -162,14 +162,7 @@ export default function TicketDetail() {
                     <Paperclip size={14} />
                     View Attachment
                   </a>
-                  {isImage(ticket.attachmentUrl) && (
-                    <img
-                      src={ticket.attachmentUrl}
-                      alt="attachment"
-                      style={{ display: "block", maxWidth: "100%", borderRadius: 8, marginTop: 10, cursor: "pointer" }}
-                      onClick={() => window.open(ticket.attachmentUrl, "_blank")}
-                    />
-                  )}
+
                 </div>
               )}
             </div>
