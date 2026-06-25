@@ -111,7 +111,7 @@ export default function Tickets() {
       setOpenMenu(null);
     } else {
       const rect = btnEl.getBoundingClientRect();
-      setMenuPos({ top: rect.bottom + window.scrollY + 4, left: rect.right + window.scrollX });
+      setMenuPos({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
       setOpenMenu(ticketId);
     }
   }
@@ -391,19 +391,18 @@ export default function Tickets() {
         <button onClick={() => setPage((p) => Math.min(p + 1, totalPages))} disabled={page === totalPages} id="pagination-btn">&#10095;</button>
       </footer>
 
-      {/* Portal dropdown — renders outside the table so it's never clipped */}
+      {/* Portal dropdown — fixed to viewport, never clipped by table overflow */}
       {openmenu !== null && createPortal(
         <div
           className="menu"
           style={{
-            position: "absolute",
+            position: "fixed",
             top: menuPos.top,
-            left: menuPos.left,
-            transform: "translateX(-100%)",
+            right: menuPos.right,
             background: "#fff",
             border: "1px solid #e5e7eb",
             borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
             minWidth: "170px",
             zIndex: 9999,
             overflow: "hidden",
