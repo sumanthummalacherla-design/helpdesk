@@ -114,9 +114,11 @@ export default function TicketDetail() {
     <div className="ticket-detail-page" style={{ overflowY: "auto", height: "100%", backgroundColor: "#e5e7eb" }}>
       <div style={{ padding: 24, maxWidth: "100%", boxSizing: "border-box" }}>
 
+<div style={{display:"flex",flexDirection:"row"}}>
         <button onClick={() => navigate("/tickets")} className="back-btn" style={{ alignSelf: "flex-start" }}>
           ← Back to Tickets
         </button>
+        </div>
 
         <div className="ticket-detail-header">
           <h2 style={{ marginBottom: 0 }}>{ticket.id} — {ticket.subject}</h2>
@@ -270,7 +272,7 @@ export default function TicketDetail() {
               </span>
             </div>
 
-            <div style={{ maxHeight: 480, overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ height: "100%", overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
               {messages.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "32px 0", color: "#9ca3af", fontSize: 13 }}>
                   No messages yet.<br />Send a reply to start the conversation.
