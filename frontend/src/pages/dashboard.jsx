@@ -253,7 +253,7 @@ export default function Dashboard() {
       {/* Bottom row */}
       <div className="dash-bottom-grid">
         {/* Recent Tickets */}
-        <div style={{ backgroundColor: "#ffffff", padding: "1rem", borderRadius: "12px" }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "1rem", borderRadius: "12px", height: "215px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
             <span style={{ fontSize: 15, fontWeight: 600, color: "#111" }}>Recent Tickets</span>
             <span style={{ fontSize: 13, color: "#185FA5", cursor: "pointer" }} onClick={() => navigate("/tickets")}>View All</span>
@@ -280,7 +280,7 @@ export default function Dashboard() {
         </div>
 
         {/* Top Customers */}
-        <div style={{ backgroundColor: "#ffffff", padding: "1rem", borderRadius: "12px" }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "1rem", borderRadius: "12px", height: "215px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
             <span style={{ fontSize: 15, fontWeight: 600, color: "#111" }}>Top Customers</span>
             <span style={{ fontSize: 13, color: "#185FA5", cursor: "pointer" }} onClick={() => navigate("/customers")}>View All</span>
