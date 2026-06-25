@@ -66,24 +66,26 @@ export default function Tickets_form() {
 
     const id = Date.now();
 
+    // Use FormData so the file is actually uploaded to the server
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("subject", fields.title);
+    formData.append("description", fields.description);
+    formData.append("category", fields.category);
+    formData.append("priority", fields.priority);
+    formData.append("assignee", fields.assignee);
+    formData.append("user", user?.role === "assignee" ? user.id : "");
+    formData.append("requesterName", user ? user.displayName : "");
+    formData.append("requesterId", user ? String(user.id) : "");
+    formData.append("requesterRole", user?.role || "assignee");
+    if (fields.attachments) {
+      formData.append("attachment", fields.attachments);
+    }
+
+    // Do NOT set Content-Type header — browser sets it automatically with the correct boundary
     const res = await fetch(API_BASE + "/api/tickets", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id,
-        subject: fields.title,
-        description: fields.description,
-        category: fields.category,
-        priority: fields.priority,
-        assignee: fields.assignee,
-        attachmentUrl: fields.attachments
-          ? URL.createObjectURL(fields.attachments)
-          : null,
-        user: user?.role === "assignee" ? user.id : null,
-        requesterName: user ? user.displayName : null,
-        requesterId: user ? String(user.id) : null,
-        requesterRole: user?.role || "assignee",
-      }),
+      body: formData,
     });
 
     if (!res.ok) {
@@ -277,4 +279,3 @@ export default function Tickets_form() {
     </form>
   );
 }
-
