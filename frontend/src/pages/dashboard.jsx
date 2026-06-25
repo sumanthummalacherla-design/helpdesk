@@ -74,14 +74,16 @@ function DonutChart({ data, total }) {
   const CIRCUMFERENCE = 2 * Math.PI * R;
   const GAP = 3;
   let offset = 0;
-  const slices = data.map((d) => {
-    const fraction = total > 0 ? d.count / total : 0;
-    const dash = fraction * CIRCUMFERENCE - GAP;
-    const gap = CIRCUMFERENCE - dash;
-    const slice = { ...d, dash, gap, offset };
-    offset += fraction * CIRCUMFERENCE;
-    return slice;
-  });
+  const slices = data
+    .filter((d) => d.count > 0)
+    .map((d) => {
+      const fraction = total > 0 ? d.count / total : 0;
+      const dash = fraction * CIRCUMFERENCE - GAP;
+      const gap = CIRCUMFERENCE - dash;
+      const slice = { ...d, dash, gap, offset };
+      offset += fraction * CIRCUMFERENCE;
+      return slice;
+    });
   return (
     <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}>
       {total === 0 ? (
@@ -178,20 +180,12 @@ export default function Dashboard() {
           margin-top: 12px;
         }
         @media (max-width: 1024px) {
-          .dash-stat-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .dash-chart-grid {
-            grid-template-columns: 1fr;
-          }
-          .dash-bottom-grid {
-            grid-template-columns: 1fr;
-          }
+          .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
+          .dash-chart-grid { grid-template-columns: 1fr; }
+          .dash-bottom-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
-          .dash-stat-grid {
-            grid-template-columns: 1fr;
-          }
+          .dash-stat-grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
@@ -201,10 +195,10 @@ export default function Dashboard() {
 
       {/* Stat cards */}
       <div className="dash-stat-grid">
-        <StatCard label="Total Tickets"  value={tickets.length}           delta="12%" deltaUp  icon={<Ticket size={26} color="#4f46e5" />}            iconBg="#ede9fe" onClick={() => navigate("/tickets")} />
-        <StatCard label="Open Tickets"   value={statusCounts.Open}         delta="8%"  deltaUp  icon={<TicketPlus size={26} color="#00BF60" />}         iconBg="#dcfce7" onClick={() => navigate("/tickets")} />
-        <StatCard label="In Progress"    value={statusCounts["In Progress"]} delta="4%" deltaUp={false} icon={<CircleFadingArrowUp size={26} color="#FFBC4D" />} iconBg="#fef3c7" onClick={() => navigate("/tickets")} />
-        <StatCard label="Resolved"       value={statusCounts.Resolved}     delta="10%" deltaUp  icon={<CircleCheckBig size={26} color="#D94DFF" />}      iconBg="#fae8ff" onClick={() => navigate("/tickets")} />
+        <StatCard label="Total Tickets"  value={tickets.length}             delta="12%" deltaUp      icon={<Ticket size={26} color="#4f46e5" />}               iconBg="#ede9fe" onClick={() => navigate("/tickets")} />
+        <StatCard label="Open Tickets"   value={statusCounts.Open}           delta="8%"  deltaUp      icon={<TicketPlus size={26} color="#00BF60" />}            iconBg="#dcfce7" onClick={() => navigate("/tickets")} />
+        <StatCard label="In Progress"    value={statusCounts["In Progress"]} delta="4%"  deltaUp={false} icon={<CircleFadingArrowUp size={26} color="#FFBC4D" />} iconBg="#fef3c7" onClick={() => navigate("/tickets")} />
+        <StatCard label="Resolved"       value={statusCounts.Resolved}       delta="10%" deltaUp      icon={<CircleCheckBig size={26} color="#D94DFF" />}        iconBg="#fae8ff" onClick={() => navigate("/tickets")} />
       </div>
 
       {/* Charts row */}
@@ -315,4 +309,3 @@ export default function Dashboard() {
     </main>
   );
 }
-
