@@ -102,7 +102,7 @@ function DonutChart({ data, total }) {
 
 function StatCard({ label, value, delta, deltaUp, icon, iconBg, onClick }) {
   return (
-    <div onClick={onClick} style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
+    <div onClick={onClick} style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", minWidth: 0, overflow: "hidden" }}>
       <div style={{ background: iconBg, padding: 10, borderRadius: 10 }}>{icon}</div>
       <div style={{ textAlign: "right" }}>
         <div style={{ fontSize: 13, color: "#6b7280" }}>{label}</div>
@@ -140,6 +140,26 @@ export default function Dashboard() {
     Closed: tickets.filter((t) => t.status === "Closed").length,
   };
 
+  // Calculate week-over-week deltas
+  const now = new Date();
+  const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - 7);
+  const startOfLastWeek = new Date(now); startOfLastWeek.setDate(now.getDate() - 14);
+
+  const thisWeek = tickets.filter(t => new Date(t.createdAt) >= startOfThisWeek);
+  const lastWeek = tickets.filter(t => new Date(t.createdAt) >= startOfLastWeek && new Date(t.createdAt) < startOfThisWeek);
+
+  function calcDelta(current, prev) {
+    if (prev === 0) return current > 0 ? { delta: "New", deltaUp: true } : { delta: "0%", deltaUp: true };
+    const pct = Math.round(((current - prev) / prev) * 100);
+    return { delta: Math.abs(pct) + "%", deltaUp: pct >= 0 };
+  }
+
+  const deltaTotal    = calcDelta(thisWeek.length, lastWeek.length);
+  const deltaOpen     = calcDelta(thisWeek.filter(t => t.status === "Open").length,        lastWeek.filter(t => t.status === "Open").length);
+  const deltaProgress = calcDelta(thisWeek.filter(t => t.status === "In Progress").length, lastWeek.filter(t => t.status === "In Progress").length);
+  const deltaResolved = calcDelta(thisWeek.filter(t => t.status === "Resolved").length,    lastWeek.filter(t => t.status === "Resolved").length);
+  const deltaClosed   = calcDelta(thisWeek.filter(t => t.status === "Closed").length,      lastWeek.filter(t => t.status === "Closed").length);
+
   const priorityData = [
     { label: "Critical", count: tickets.filter((t) => t.priority === "Critical").length, color: "#E24B4A" },
     { label: "High",     count: tickets.filter((t) => t.priority === "High").length,     color: "#EF9F27" },
@@ -168,6 +188,9 @@ export default function Dashboard() {
           grid-template-columns: repeat(5, 1fr);
           gap: 12px;
         }
+        @media (max-width: 1400px) {
+          .dash-stat-grid { grid-template-columns: repeat(3, 1fr); }
+        }
         .dash-chart-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -179,9 +202,6 @@ export default function Dashboard() {
           grid-template-columns: 1fr 1fr;
           gap: 12px;
           margin-top: 12px;
-        }
-        @media (max-width: 1200px) {
-          .dash-stat-grid { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 1024px) {
           .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -199,11 +219,11 @@ export default function Dashboard() {
 
       {/* Stat cards */}
       <div className="dash-stat-grid">
-        <StatCard label="Total Tickets"  value={tickets.length}             delta="12%" deltaUp      icon={<Ticket size={26} color="#4f46e5" />}               iconBg="#ede9fe" onClick={() => navigate("/tickets")} />
-        <StatCard label="Open Tickets"   value={statusCounts.Open}           delta="8%"  deltaUp      icon={<TicketPlus size={26} color="#00BF60" />}            iconBg="#dcfce7" onClick={() => navigate("/tickets?status=Open")} />
-        <StatCard label="In Progress"    value={statusCounts["In Progress"]} delta="4%"  deltaUp={false} icon={<CircleFadingArrowUp size={26} color="#FFBC4D" />} iconBg="#fef3c7" onClick={() => navigate("/tickets?status=In Progress")} />
-        <StatCard label="Resolved"       value={statusCounts.Resolved}       delta="10%" deltaUp      icon={<CircleCheckBig size={26} color="#D94DFF" />}        iconBg="#fae8ff" onClick={() => navigate("/tickets?status=Resolved")} />
-        <StatCard label="Closed"         value={statusCounts.Closed}         delta="5%"  deltaUp      icon={<XCircle size={26} color="#6b7280" />}               iconBg="#f3f4f6" onClick={() => navigate("/tickets?status=Closed")} />
+        <StatCard label="Total Tickets"  value={tickets.length}             delta={deltaTotal.delta}    deltaUp={deltaTotal.deltaUp}    icon={<Ticket size={26} color="#4f46e5" />}               iconBg="#ede9fe" onClick={() => navigate("/tickets")} />
+        <StatCard label="Open Tickets"   value={statusCounts.Open}           delta={deltaOpen.delta}     deltaUp={deltaOpen.deltaUp}     icon={<TicketPlus size={26} color="#00BF60" />}            iconBg="#dcfce7" onClick={() => navigate("/tickets?status=Open")} />
+        <StatCard label="In Progress"    value={statusCounts["In Progress"]} delta={deltaProgress.delta} deltaUp={deltaProgress.deltaUp} icon={<CircleFadingArrowUp size={26} color="#FFBC4D" />}   iconBg="#fef3c7" onClick={() => navigate("/tickets?status=In Progress")} />
+        <StatCard label="Resolved"       value={statusCounts.Resolved}       delta={deltaResolved.delta} deltaUp={deltaResolved.deltaUp} icon={<CircleCheckBig size={26} color="#D94DFF" />}         iconBg="#fae8ff" onClick={() => navigate("/tickets?status=Resolved")} />
+        <StatCard label="Closed"         value={statusCounts.Closed}         delta={deltaClosed.delta}   deltaUp={deltaClosed.deltaUp}   icon={<XCircle size={26} color="#6b7280" />}                iconBg="#f3f4f6" onClick={() => navigate("/tickets?status=Closed")} />
       </div>
 
       {/* Charts row */}
@@ -222,7 +242,7 @@ export default function Dashboard() {
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="day" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip />
+              {/* <Tooltip /> */}
               <Line dataKey="value"    stroke="#378ADD" strokeWidth={2} dot={{ r: 3 }} />
               <Line dataKey="resolved" stroke="#1D9E75" strokeWidth={2} strokeDasharray="4 3" dot={{ r: 3 }} />
             </LineChart>
@@ -247,7 +267,7 @@ export default function Dashboard() {
                     <span style={{ width: 10, height: 10, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
                     {p.label}
                   </span>
-                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500, marginRight: 100 }}>{p.count}</span>
+                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500 }}>{p.count}</span>
                 </div>
               ))}
             </div>
