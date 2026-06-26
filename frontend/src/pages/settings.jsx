@@ -175,6 +175,7 @@ const Settings = () => {
                 borderRadius: "8px",
                 marginBottom: "6px",
                 cursor: "pointer",
+                textAlign: "left",
                 background:
                   activeTab === item
                     ? "#eef2ff"
@@ -429,6 +430,8 @@ const Settings = () => {
               style={{
                 fontSize: "14px",
                 color: "#64748b",
+                textAlign: "left",
+                display: "block",
               }}
             >
               Close after days
@@ -495,15 +498,16 @@ const Preference = ({
   <div
     style={{
       marginBottom: "18px",
+      textAlign: "left",
     }}
   >
-    <label>
+    <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
       <input
         type="checkbox"
         name={name}
         checked={checked}
         onChange={onChange}
-      />{" "}
+      />
       {label}
     </label>
   </div>
@@ -515,6 +519,7 @@ const labelStyle = {
   fontSize: "14px",
   color: "#475569",
   fontWeight: "500",
+  textAlign: "left",
 };
 
 const inputStyle = {
@@ -524,6 +529,7 @@ const inputStyle = {
   borderRadius: "8px",
   padding: "0 12px",
   fontSize: "14px",
+  textAlign: "left",
 };
 
 export default Settings;
