@@ -326,7 +326,7 @@ export default function Dashboard() {
                     </div>
                     <span style={{ fontSize: 13, color: "#374151" }}>{c.name}</span>
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: "#6b7280" ,marginRight: 100}}>{c.count}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: "#6b7280" }}>{c.count}</span>
                 </div>
               );
             })
