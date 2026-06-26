@@ -267,7 +267,7 @@ export default function Dashboard() {
                     <span style={{ width: 10, height: 10, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
                     {p.label}
                   </span>
-                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500, marginRight: 100 }}>{p.count}</span>
+                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500 }}>{p.count}</span>
                 </div>
               ))}
             </div>
@@ -317,13 +317,15 @@ export default function Dashboard() {
               const { bg, color } = getAvatarStyle(c.name);
               return (
                 <div key={c.name} onClick={() => navigate("/customers")}
-                  style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0", borderBottom: "1px solid #f3f4f6", cursor: "pointer" }}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "8px 0", borderBottom: "1px solid #f3f4f6", cursor: "pointer" }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#f8fafc")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
-                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: bg, color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, flexShrink: 0 }}>
-                    {getInitials(c.name)}
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: bg, color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, flexShrink: 0 }}>
+                      {getInitials(c.name)}
+                    </div>
+                    <span style={{ fontSize: 13, color: "#374151" }}>{c.name}</span>
                   </div>
-                  <span style={{ flex: 1, fontSize: 13, color: "#374151" }}>{c.name}</span>
                   <span style={{ fontSize: 13, fontWeight: 500, color: "#6b7280" }}>{c.count}</span>
                 </div>
               );
