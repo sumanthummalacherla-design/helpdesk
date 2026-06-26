@@ -222,7 +222,7 @@ export default function Dashboard() {
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="day" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
-              {/* <Tooltip /> */}
+              <Tooltip />
               <Line dataKey="value"    stroke="#378ADD" strokeWidth={2} dot={{ r: 3 }} />
               <Line dataKey="resolved" stroke="#1D9E75" strokeWidth={2} strokeDasharray="4 3" dot={{ r: 3 }} />
             </LineChart>
@@ -247,7 +247,7 @@ export default function Dashboard() {
                     <span style={{ width: 10, height: 10, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
                     {p.label}
                   </span>
-                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500, marginRight: 16 }}>{p.count}</span>
+                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500, marginRight: 50 }}>{p.count}</span>
                 </div>
               ))}
             </div>
