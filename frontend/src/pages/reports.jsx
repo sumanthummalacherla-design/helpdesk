@@ -55,16 +55,24 @@ function DonutChart({ data, total }) {
   );
 }
 
+const RANGES = [
+  { label: "1 Week",   days: 7  },
+  { label: "10 Days",  days: 10 },
+  { label: "30 Days",  days: 30 },
+];
+
 export default function Reports() {
   const { user } = useAuth();
-  const [tickets, setTickets] = useState([]);
+  const [allTickets, setAllTickets] = useState([]);
+  const [rangeDays, setRangeDays] = useState(30);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
         const res = await fetch(API_BASE + "/api/tickets");
         const data = await res.json();
-        setTickets(data.tickets);
+        setAllTickets(data.tickets);
       } catch (err) {
         console.error("Error fetching tickets:", err);
       }
@@ -72,7 +80,25 @@ export default function Reports() {
     fetchTickets();
   }, []);
 
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - rangeDays);
+  const tickets = allTickets.filter(t => new Date(t.createdAt) >= cutoff);
+
+  const prevCutoff = new Date();
+  prevCutoff.setDate(prevCutoff.getDate() - rangeDays * 2);
+  const prevTickets = allTickets.filter(t => new Date(t.createdAt) >= prevCutoff && new Date(t.createdAt) < cutoff);
+
+  function pct(curr, prev) {
+    if (prev === 0) return curr > 0 ? { val: "New", up: true } : { val: "0%", up: true };
+    const p = Math.round(((curr - prev) / prev) * 100);
+    return { val: Math.abs(p) + "%", up: p >= 0 };
+  }
+
   const resolved = tickets.filter((t) => t.status === "Resolved");
+  const prevResolved = prevTickets.filter((t) => t.status === "Resolved");
+
+  const deltaTotal    = pct(tickets.length, prevTickets.length);
+  const deltaResolved = pct(resolved.length, prevResolved.length);
 
   const avgResolutionHrs = (() => {
     const withTime = resolved.filter((t) => t.createdAt && t.updatedAt);
@@ -89,24 +115,19 @@ export default function Reports() {
     : "—";
 
   const trendData = (() => {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const created = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
-    const resolvedDay = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
-    tickets.forEach((t) => {
-      if (t.createdAt) {
-        const day = days[new Date(t.createdAt).getDay()];
-        created[day]++;
-      }
-      if (t.status === "Resolved" && t.updatedAt) {
-        const day = days[new Date(t.updatedAt).getDay()];
-        resolvedDay[day]++;
-      }
-    });
-    return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => ({
-      day,
-      value: created[day],
-      resolved: resolvedDay[day],
-    }));
+    const result = [];
+    for (let i = rangeDays - 1; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const label = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const dateStr = d.toDateString();
+      result.push({
+        day: label,
+        value: tickets.filter(t => t.createdAt && new Date(t.createdAt).toDateString() === dateStr).length,
+        resolved: tickets.filter(t => t.status === "Resolved" && t.updatedAt && new Date(t.updatedAt).toDateString() === dateStr).length,
+      });
+    }
+    return result;
   })();
 
   const categoryData = (() => {
@@ -132,10 +153,29 @@ export default function Reports() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
         <div style={{ fontSize: 24, fontWeight: 600, color: "#111" }}>Reports</div>
         <div style={{ display: "flex", gap: 10 }}>
-          <button style={{ fontSize: 13, border: "1px solid #e5e7eb", borderRadius: 8, padding: "8px 14px", background: "#fff", cursor: "pointer" }}>
-            Last 30 Days ▾
-          </button>
-
+          <div style={{ position: "relative" }}>
+            <button
+              onClick={() => setShowDropdown(p => !p)}
+              style={{ fontSize: 13, border: "1px solid #e5e7eb", borderRadius: 8, padding: "8px 14px", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
+            >
+              Last {rangeDays === 7 ? "1 Week" : rangeDays + " Days"} ▾
+            </button>
+            {showDropdown && (
+              <div style={{ position: "absolute", right: 0, top: "110%", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 100, minWidth: 130 }}>
+                {RANGES.map(r => (
+                  <div
+                    key={r.days}
+                    onClick={() => { setRangeDays(r.days); setShowDropdown(false); }}
+                    style={{ padding: "10px 16px", cursor: "pointer", fontSize: 13, color: rangeDays === r.days ? "#4f46e5" : "#374151", fontWeight: rangeDays === r.days ? 600 : 400, background: rangeDays === r.days ? "#eef2ff" : "transparent" }}
+                    onMouseEnter={e => e.currentTarget.style.background = rangeDays === r.days ? "#eef2ff" : "#f9fafb"}
+                    onMouseLeave={e => e.currentTarget.style.background = rangeDays === r.days ? "#eef2ff" : "transparent"}
+                  >
+                    {r.label}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -144,22 +184,22 @@ export default function Reports() {
         <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "1rem 1.25rem" }}>
           <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 6, fontWeight: 500 }}>Total Tickets</div>
           <div style={{ fontSize: 28, fontWeight: 600, color: "#111", marginBottom: 4 }}>{tickets.length}</div>
-          <div style={{ fontSize: 12, color: "#16a34a" }}>↑ 15% vs prev 30 days</div>
+          <div style={{ fontSize: 12, color: deltaTotal.up ? "#16a34a" : "#dc2626" }}>{deltaTotal.up ? "↑" : "↓"} {deltaTotal.val} vs prev period</div>
         </div>
         <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "1rem 1.25rem" }}>
           <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 6, fontWeight: 500 }}>Resolved Tickets</div>
           <div style={{ fontSize: 28, fontWeight: 600, color: "#111", marginBottom: 4 }}>{resolved.length}</div>
-          <div style={{ fontSize: 12, color: "#16a34a" }}>↑ 16% vs prev 30 days</div>
+          <div style={{ fontSize: 12, color: deltaResolved.up ? "#16a34a" : "#dc2626" }}>{deltaResolved.up ? "↑" : "↓"} {deltaResolved.val} vs prev period</div>
         </div>
         <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "1rem 1.25rem" }}>
           <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 6, fontWeight: 500 }}>Average Resolution Time</div>
           <div style={{ fontSize: 28, fontWeight: 600, color: "#111", marginBottom: 4 }}>{avgResolutionHrs}</div>
-          <div style={{ fontSize: 12, color: "#dc2626" }}>↓ 5% vs prev 30 days</div>
+          <div style={{ fontSize: 12, color: "#6b7280" }}>For selected period</div>
         </div>
         <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e5e7eb", padding: "1rem 1.25rem" }}>
           <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 6, fontWeight: 500 }}>SLA Compliance</div>
           <div style={{ fontSize: 28, fontWeight: 600, color: "#111", marginBottom: 4 }}>{slaCompliance}</div>
-          <div style={{ fontSize: 12, color: "#16a34a" }}>↑ 3% vs prev 30 days</div>
+          <div style={{ fontSize: 12, color: "#6b7280" }}>For selected period</div>
         </div>
       </div>
 
