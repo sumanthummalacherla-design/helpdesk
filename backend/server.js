@@ -44,6 +44,8 @@ app.post('/api/register', async (req, res) => {
     if (!email || !password) return res.status(400).json({ message: 'Email and password are required' });
     const existing = await User.findOne({ email });
     if (existing) return res.status(409).json({ message: 'User already exists' });
+    const customerExists = await Customer.findOne({ email: email.toLowerCase() });
+    if (customerExists) return res.status(409).json({ message: 'This email is already registered as a customer' });
     const user = await User.create({ displayName, email, password });
     return res.status(201).json({ message: 'registered', user: { id: user._id, displayName: user.displayName, email: user.email } });
   } catch (error) {
@@ -82,6 +84,8 @@ app.post('/api/customers/register', async (req, res) => {
     if (!name || !email || !password) return res.status(400).json({ message: 'Name, email and password are required' });
     const existing = await Customer.findOne({ email: email.toLowerCase() });
     if (existing) return res.status(409).json({ message: 'Customer already exists' });
+    const assigneeExists = await User.findOne({ email: email.toLowerCase() });
+    if (assigneeExists) return res.status(409).json({ message: 'This email is already registered as an assignee' });
     const customer = await Customer.create({ name, email, password });
     return res.status(201).json({
       message: 'registered',
