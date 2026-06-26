@@ -11,7 +11,7 @@
           var q = window.location.search.match(/q=(.*)/);
           window.history.replaceState(
             null, null,
-            '/' + p[1].replace(/~and~/g, '&') +
+            '/helpdesk/' + p[1].replace(/~and~/g, '&') +
             (q ? '?' + q[1].replace(/~and~/g, '&') : '') +
             window.location.hash
           );
