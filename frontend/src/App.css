@@ -963,7 +963,7 @@ table{
   align-items: start;
   width: 100%;
   height: auto;
-  background-color: #e6ecf6;
+  background-color: #fff;
   margin-top: 0px;
 }
 
@@ -974,7 +974,7 @@ table{
   align-items: start;
   width: 60%;
   height: auto;
-  background-color: #e6ecf6;
+  background-color: #fff;
   padding: 0px 15px;
 }
 
@@ -985,7 +985,7 @@ table{
   align-items: start;
   width: 38%;
   height: 100%;
-  background-color: #e6ecf6;
+  background-color: #fff;
   padding: 0px 15px;
 }
 
@@ -997,7 +997,7 @@ table{
   width: 100%;
   height: 91%;
 
-  background-color: #e6ecf6;
+  background-color: #fff;
   padding: 15px 15px 5px 15px;
   overflow: hidden;
 }
@@ -1009,7 +1009,7 @@ table{
   align-items: start;
   width: 100%;
   height: auto;
-  background-color: #e6ecf6;
+  background-color: #fff;
   padding: 0px;
   margin: 0;
 }
