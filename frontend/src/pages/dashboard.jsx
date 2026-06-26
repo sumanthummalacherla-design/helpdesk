@@ -247,7 +247,7 @@ export default function Dashboard() {
                     <span style={{ width: 10, height: 10, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
                     {p.label}
                   </span>
-                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500 }}>{p.count}</span>
+                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 500, marginRight: 16 }}>{p.count}</span>
                 </div>
               ))}
             </div>
