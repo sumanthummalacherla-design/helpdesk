@@ -2,19 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/helpdesk/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
       (function () {
-        var p = window.location.search.match(/p=\/([^&]*)/);
-        if (p) {
-          var q = window.location.search.match(/q=(.*)/);
-          window.history.replaceState(
-            null, null,
-            '/helpdesk/' + p[1].replace(/~and~/g, '&') +
-            (q ? '?' + q[1].replace(/~and~/g, '&') : '') +
-            window.location.hash
-          );
+        var redirect = sessionStorage.getItem('spa_redirect');
+        if (redirect) {
+          sessionStorage.removeItem('spa_redirect');
+          window.history.replaceState(null, null, redirect);
         }
       })();
     </script>
