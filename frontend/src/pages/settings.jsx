@@ -130,6 +130,7 @@ const Settings = () => {
           fontSize: "32px",
           fontWeight: "700",
           marginBottom: "5px",
+          textAlign: "left",
         }}
       >
         Settings
@@ -139,10 +140,10 @@ const Settings = () => {
         style={{
           color: "#64748b",
           marginBottom: "24px",
+          textAlign: "left",
         }}
       >
-        Manage your help desk system settings and
-        preferences.
+        Manage your help desk system settings and preferences.
       </p>
 
       <div
@@ -206,6 +207,7 @@ const Settings = () => {
           <h3
             style={{
               marginBottom: "20px",
+              textAlign: "left",
             }}
           >
             General Settings
@@ -378,6 +380,7 @@ const Settings = () => {
           <h3
             style={{
               marginBottom: "20px",
+              textAlign: "left",
             }}
           >
             System Preferences
@@ -524,4 +527,3 @@ const inputStyle = {
 };
 
 export default Settings;
-
