@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      var path = window.location.pathname;
+      var repo = '/helpdesk';
+      var rest = path.replace(repo, '') || '/';
+      sessionStorage.setItem('redirect', rest);
+      window.location.replace(repo + '/');
+    </script>
+  </head>
+  <body></body>
+</html>
