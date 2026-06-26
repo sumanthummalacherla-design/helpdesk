@@ -963,7 +963,7 @@ table{
   align-items: start;
   width: 100%;
   height: auto;
-  background-color: #e6ecf6;
+  background-color: #fff;
   margin-top: 0px;
 }
 
@@ -996,7 +996,6 @@ table{
 .ticket-form-container {
   width: 100%;
   height: 91%;
-
   background-color: #fff;
   padding: 15px 15px 5px 15px;
   overflow: hidden;
