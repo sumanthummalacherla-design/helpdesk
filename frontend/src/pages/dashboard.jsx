@@ -7,6 +7,7 @@ import {
   TicketPlus,
   CircleFadingArrowUp,
   CircleCheckBig,
+  XCircle,
 } from "lucide-react";
 import {
   LineChart,
@@ -164,7 +165,7 @@ export default function Dashboard() {
       <style>{`
         .dash-stat-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(5, 1fr);
           gap: 12px;
         }
         .dash-chart-grid {
@@ -178,6 +179,9 @@ export default function Dashboard() {
           grid-template-columns: 1fr 1fr;
           gap: 12px;
           margin-top: 12px;
+        }
+        @media (max-width: 1200px) {
+          .dash-stat-grid { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 1024px) {
           .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -196,9 +200,10 @@ export default function Dashboard() {
       {/* Stat cards */}
       <div className="dash-stat-grid">
         <StatCard label="Total Tickets"  value={tickets.length}             delta="12%" deltaUp      icon={<Ticket size={26} color="#4f46e5" />}               iconBg="#ede9fe" onClick={() => navigate("/tickets")} />
-        <StatCard label="Open Tickets"   value={statusCounts.Open}           delta="8%"  deltaUp      icon={<TicketPlus size={26} color="#00BF60" />}            iconBg="#dcfce7" onClick={() => navigate("/tickets")} />
-        <StatCard label="In Progress"    value={statusCounts["In Progress"]} delta="4%"  deltaUp={false} icon={<CircleFadingArrowUp size={26} color="#FFBC4D" />} iconBg="#fef3c7" onClick={() => navigate("/tickets")} />
-        <StatCard label="Resolved"       value={statusCounts.Resolved}       delta="10%" deltaUp      icon={<CircleCheckBig size={26} color="#D94DFF" />}        iconBg="#fae8ff" onClick={() => navigate("/tickets")} />
+        <StatCard label="Open Tickets"   value={statusCounts.Open}           delta="8%"  deltaUp      icon={<TicketPlus size={26} color="#00BF60" />}            iconBg="#dcfce7" onClick={() => navigate("/tickets?status=Open")} />
+        <StatCard label="In Progress"    value={statusCounts["In Progress"]} delta="4%"  deltaUp={false} icon={<CircleFadingArrowUp size={26} color="#FFBC4D" />} iconBg="#fef3c7" onClick={() => navigate("/tickets?status=In Progress")} />
+        <StatCard label="Resolved"       value={statusCounts.Resolved}       delta="10%" deltaUp      icon={<CircleCheckBig size={26} color="#D94DFF" />}        iconBg="#fae8ff" onClick={() => navigate("/tickets?status=Resolved")} />
+        <StatCard label="Closed"         value={statusCounts.Closed}         delta="5%"  deltaUp      icon={<XCircle size={26} color="#6b7280" />}               iconBg="#f3f4f6" onClick={() => navigate("/tickets?status=Closed")} />
       </div>
 
       {/* Charts row */}
