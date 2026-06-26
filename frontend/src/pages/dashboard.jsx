@@ -251,7 +251,7 @@ export default function Dashboard() {
 
         {/* Tickets by Priority */}
         <div style={{ backgroundColor: "#ffffff", padding: "1rem", borderRadius: "12px" }}>
-          <div style={{ fontSize: 15, fontWeight: 600, color: "#111", marginBottom: "1rem",justifyContent:"start" }}>Tickets by Priority</div>
+          <div style={{ fontSize: 15, fontWeight: 600, color: "#111", marginBottom: "1rem",justifyContent:"start",flexDirection:"row" }}>Tickets by Priority</div>
           <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
             <div style={{ position: "relative", width: 130, height: 130, flexShrink: 0 }}>
               <DonutChart data={priorityData} total={tickets.length} />
