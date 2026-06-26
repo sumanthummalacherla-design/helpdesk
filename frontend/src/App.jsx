@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
@@ -19,12 +19,12 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Layout />}>
-            <Route index element={<Dashboard />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="reports" element={<Reports />} />
             <Route path="customers" element={<Customers />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="dashboard" element={<Dashboard />} />
             <Route path="tickets" element={<Tickets />} />
             <Route path="ticket-form" element={<Ticket_form />} />
             <Route path="ticket/:id" element={<TicketDetail />} />
