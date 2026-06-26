@@ -1,7 +1,7 @@
 import API_BASE from '../config';
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import {
   Ticket,
@@ -14,9 +14,13 @@ import {
 
 export default function Tickets() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user } = useAuth();
   const [tickets, setTickets] = useState([]);
-  const [filterStatus, setFilterStatus] = useState(new Set());
+  const [filterStatus, setFilterStatus] = useState(() => {
+    const s = searchParams.get("status");
+    return s ? new Set([s]) : new Set();
+  });
   const [filterPriority, setFilterPriority] = useState(new Set());
   const [filterAssignee, setFilterAssignee] = useState("all");
   const [page, setPage] = useState(1);
@@ -39,6 +43,12 @@ export default function Tickets() {
   }, [user]);
 
   useEffect(() => { setPage(1); }, [filterStatus, filterPriority, filterAssignee]);
+
+  useEffect(() => {
+    const s = searchParams.get("status");
+    if (s) setFilterStatus(new Set([s]));
+    else setFilterStatus(new Set());
+  }, [searchParams]);
 
   useEffect(() => {
     function handleClickOutside(event) {
